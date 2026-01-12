@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love 💖</title>
+    
+    <!-- Tailwind CSS for Modern Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Smooth Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        .heart {
+            position: absolute;
+            color: #ff2d55;
+            pointer-events: none;
+            z-index: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 45, 85, 0.8));
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255, 45, 85, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music (Lo-Fi) -->
+    <!-- Note: Replace the URL with your favorite Lo-fi track MP3 link -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-lofi.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Overlay / Start Button (Required for Browser Audio Policy) -->
+    <div id="overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-1000">
+        <button onclick="startExperience()" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white rounded-full text-xl font-bold shadow-lg transition-all transform hover:scale-110">
+            Click to Open Your Gift 🎁
+        </button>
+        <p class="mt-4 text-gray-400 animate-pulse text-sm">Best viewed with sound on</p>
+    </div>
+
+    <!-- Floating Hearts Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="text-center opacity-0">
+            <div class="mb-6">
+                <i class="fa-solid fa-heart text-6xl text-pink-600 animate-bounce"></i>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold glow-text mb-4">Happy Birthday, <span class="text-pink-500">[Name]</span>!</h1>
+            <p class="text-xl md:text-2xl text-gray-300 cursive tracking-wide">You make my world glow brighter every single day.</p>
+        </section>
+
+        <!-- Message Grid -->
+        <section class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+            <!-- Card 1 -->
+            <div class="glass-card p-8 opacity-0 message-card transform translate-y-10">
+                <i class="fa-solid fa-star text-yellow-400 mb-4 text-2xl"></i>
+                <h3 class="text-xl font-bold mb-2">My North Star</h3>
+                <p class="text-gray-400 leading-relaxed">In a galaxy of billions, I'm so glad I found you. You guide me through the dark and celebrate my light.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="glass-card p-8 opacity-0 message-card transform translate-y-10">
+                <i class="fa-solid fa-moon text-blue-300 mb-4 text-2xl"></i>
+                <h3 class="text-xl font-bold mb-2">To the Moon</h3>
+                <p class="text-gray-400 leading-relaxed">I love you past the stars and beyond the moon. Today is all about celebrating the beautiful soul you are.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="glass-card p-8 opacity-0 message-card transform translate-y-10">
+                <i class="fa-solid fa-infinity text-pink-400 mb-4 text-2xl"></i>
+                <h3 class="text-xl font-bold mb-2">Always & Forever</h3>
+                <p class="text-gray-400 leading-relaxed">Every moment with you is a new favorite memory. Here's to many more birthdays and infinite adventures together.</p>
+            </div>
+        </section>
+
+        <!-- Footer Footer -->
+        <footer class="mt-20 text-center opacity-0" id="footer">
+            <p class="text-gray-500 text-sm">Made with ❤️ by [Your Name]</p>
+            <div class="flex justify-center gap-6 mt-4">
+                <i class="fa-brands fa-instagram text-gray-400 hover:text-pink-500 cursor-pointer"></i>
+                <i class="fa-solid fa-envelope text-gray-400 hover:text-pink-500 cursor-pointer"></i>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Start the animations and music
+        function startExperience() {
+            // Hide Overlay
+            gsap.to("#overlay", { 
+                opacity: 0, 
+                duration: 1, 
+                onComplete: () => {
+                    document.getElementById('overlay').style.display = 'none';
+                    playAnimations();
+                } 
+            });
+
+            // Play Music
+            const music = document.getElementById('bgMusic');
+            music.play();
+            music.volume = 0.4;
+        }
+
+        function playAnimations() {
+            // Hero Animation
+            gsap.to("#hero", { opacity: 1, y: -20, duration: 1.5, ease: "power4.out" });
+
+            // Cards Animation
+            gsap.to(".message-card", { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1, 
+                stagger: 0.3, 
+                delay: 0.5, 
+                ease: "back.out(1.7)" 
+            });
+
+            // Footer Animation
+            gsap.to("#footer", { opacity: 1, duration: 2, delay: 2 });
+
+            // Start Creating Hearts
+            setInterval(createHeart, 300);
+        }
+
+        // Floating Hearts Logic
+        function createHeart() {
+            const container = document.getElementById('canvas-container');
+            const heart = document.createElement('i');
+            heart.className = `fa-solid fa-heart heart`;
+            
+            // Random styling
+            const size = Math.random() * 20 + 10 + 'px';
+            const left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 3 + 4 + 's';
+            const opacity = Math.random() * 0.5 + 0.3;
+
+            heart.style.left = left;
+            heart.style.fontSize = size;
+            heart.style.opacity = opacity;
+            heart.style.bottom = "-20px";
+
+            container.appendChild(heart);
+
+            // Animate up and fade out
+            gsap.to(heart, {
+                y: -window.innerHeight - 100,
+                x: (Math.random() - 0.5) * 200,
+                rotation: Math.random() * 360,
+                duration: parseFloat(duration),
+                ease: "none",
+                onComplete: () => heart.remove()
+            });
+        }
+    </script>
+</body>
+</html>
